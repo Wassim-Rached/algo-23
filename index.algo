@@ -1,0 +1,193 @@
+//itérative
+Fonction NbOccurences(L : Liste, E : Entier) : Entier
+variables:
+	P: Liste
+	Cpt: entier
+début
+	P <-- L
+	Cpt <-- 0
+	tant que P <> Nil faire
+		si (P^.Info = E) alors
+			Cpt <-- Cpt + 1
+		fin_si
+		P <-- P^.Suivant
+	fin_tant_que
+	NbOccurences <-- Cpt
+Fin
+
+//récursive
+Fonction NbOccurences(L : Liste, E : Entier) : Entier
+variables
+	
+début
+	si L = Nil alors
+		NbOccurences <-- 0
+	sinon si ( L^.Info = E) alors
+		NbOccurences <-- 1 + NbOccurences(L^.Suivant,E)
+	sinon
+		NbOccurences <-- NbOccurences(L^.Suivant,E)
+	fin_si
+
+fin
+
+//itérative
+Fonction Pointeur(L : Liste, k : Entier) : Liste
+variables:
+	P : Liste
+	i : entier
+début
+	
+	si (k >= 1 ET k <= Taille(L)) alors
+		P <-- L
+		pour i de 2 à k faire
+			P<-- P^.Suivant
+		fin_pour
+		Pointeur <-- P
+	sinon
+		Pointeur <-- Nil
+	fin_si
+fin
+
+//récursive
+Fonction Pointeur (L : Liste, k : Entier) : Liste
+variables:
+
+début
+	Si (k > Taille(L) OU k < 1) alors
+		Pointeur <-- Nil
+	sinon
+		
+	fin_si
+Fin
+
+//récursive
+Fonction Pointeur(L : Liste, k : Entier) : Liste
+variables
+    P : Liste // variable locale pour stocker le k-ème élément
+début
+    si (k >= 1 ET k <= Taille(L)) alors // vérifier que l'indice k est valide
+        si k = 1 alors // si k est égal à 1, retourner le premier élément de la liste
+            Pointeur <-- L
+        sinon // sinon, chercher le k-ème élément récursivement
+            P <-- Pointeur(L^.Suivant, k - 1) // appel récursif pour obtenir le k-1-ème élément
+            Pointeur <-- P // retourner un pointeur vers le k-ème élément
+        fin_si
+    sinon // si l'indice k est invalide, retourner Nil
+        Pointeur <-- Nil
+    fin_si
+fin
+
+//itérative
+Fonction Taille(L : Liste) : Entier
+variable:
+	P :	Liste
+	Cpt: entier
+début
+	Cpt <-- 0 
+	P <-- L
+	tant que ( P <> Nil ) faire
+		Cpt <-- Cpt + 1
+		P <-- P^.Suivant
+	fin_tant_que
+	Taille <-- Cpt
+fin
+
+
+//récursive
+Fonction Taille(L : Liste) : Entier
+variable:
+début
+	si L = Nil alors
+		Taille <-- 0
+	sinon 
+	Taille <-- 1 + Taille(L^.Suivant)
+fin_si
+fin
+
+
+//itérative
+Fonction Recherche (L : Liste, E : Entier) : Booléen
+variables:
+	P : Liste
+début
+	P <-- L
+	tant que (P <> Nil ET P^.Info <> E) faire
+		P <-- P^.Suivant
+	fin_tant_que
+	Recherche <-- P <> Nil
+fin
+
+
+//récursive
+Fonction Recherche (L : Liste, E : Entier) : Booléen
+variables:
+
+début
+	Si ( L = Nil) alors
+		Recherche <-- faux
+	sinon ( L^.Info = E ) alors
+		Recherche <-- vrai
+	sinon
+		Recherche <-- Recherche(L^.Suivant,E)
+	fin_si
+fin
+
+//
+function abc(L : List, n: entier ) : Booléen
+variables:
+	Q,P:List
+	Decal : Bool <-- vrai
+	i: entier
+début
+	si ( n <= Taille(L) ) alors
+		// etape 1 
+		P <-- L
+		tant que (P^.Suivant = Nil) faire
+			P <-- P^.Suivant
+		fin_tant_que
+		P^.Suivant = L
+		// etape 2
+		Q <-- L
+		pour i de 2 à n-1 faire
+			Q <-- Q^.Suivant
+		fin_pour
+		Q^.Suivant <-- Nil
+	sinon
+		Decal <-- faux
+	fin_si
+	abc <-- Decal
+fin
+
+// tools
+InsérerFin (L : Liste, valeur : Entier)
+SupprimerPosition (var L : Liste, pos : Entier)
+// Union_Intersection
+Procédure Union_Intersection (var L1, var L2 : Liste)
+Variables
+	P : Liste
+	i : Entier
+Début
+	P <-- L2
+	i <-- 1
+	TantQue P <> Nil Faire
+		Si Existe(P^.Info, L1) Alors
+			P <-- P^.Suiv
+			i <-- i +1
+		Sinon
+			InsererFin (L1, P^.Info)
+			P <-- P^.Suiv
+			SupprimerPosition (L2, i)
+		FinSi
+	FinTantQue
+Fin
+
+Fonction Existe (e : Entier, L : Liste) : Booléen
+	Variables
+	P : Liste
+Début
+	P <-- L
+	TantQue P <> Nil et P^.Info <> e faire
+		P <-- P^.Suiv
+	FinTantQue
+	Existe <-- P <> Nil
+Fin
